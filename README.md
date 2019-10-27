@@ -4,6 +4,7 @@
 ```bash
 git clone git@github.com:Addovej/simple_catalog.git
 cd simple_catalog
+cp .env.example .env
 ```
 To build:
 ```bash
@@ -12,10 +13,6 @@ docker-compose build
 To apply migrations:
 ```bash
 docker-compose run app flask db upgrade
-```
-To create a superuser:
-```bash
-docker-compose run app flask create-superuser exampl@email.com
 ```
 To launch
 ```bash
@@ -33,6 +30,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 flask run
 ```
+
+Go to http://127.0.0.1:5000/apidocs
 
 
 ## Requirements

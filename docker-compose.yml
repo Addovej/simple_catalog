@@ -1,0 +1,48 @@
+version: '3.5'
+services:
+  redis:
+    container_name: scat_redis
+    image: redis:4-alpine
+    env_file:
+      - .env
+
+  postgresql:
+    container_name: scat_postgres
+    image: postgres:11
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    container_name: scat_app
+    working_dir: /
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app
+      - ./migrations:/migrations
+    depends_on:
+      - postgresql
+      - redis
+    ports:
+      - '5000:5000'
+
+  celery:
+    container_name: scat_celery
+    working_dir: /
+    build: .
+    env_file:
+      - .env
+    command: celery -A app.celery:celery_app worker -E --loglevel=INFO
+    volumes:
+      - ./app:/app
+    links:
+      - postgresql
+      - redis
+    depends_on:
+      - app
+
+volumes:
+  pgdata:
