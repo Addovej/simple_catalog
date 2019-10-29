@@ -23,6 +23,7 @@ services:
     volumes:
       - ./app:/app
       - ./migrations:/migrations
+      - ./app_data:/app_data
     depends_on:
       - postgresql
       - redis
@@ -38,6 +39,7 @@ services:
     command: celery -A app.celery:celery_app worker -E --loglevel=INFO
     volumes:
       - ./app:/app
+      - ./app_data:/app_data
     links:
       - postgresql
       - redis

@@ -19,6 +19,7 @@ def create_app():
     migrate.init_app(flask_app, db)
 
     with flask_app.app_context():
+        from . import commands
         from . import docs
         from . import routes
         from . import schemes

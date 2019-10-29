@@ -19,4 +19,5 @@ RUN apk del .build-deps
 
 COPY app .
 COPY migrations ./migrations
+COPY app_data ./app_data
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "app.wsgi:app"]
