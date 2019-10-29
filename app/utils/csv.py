@@ -13,6 +13,7 @@ class SyncDataFromFile(object):
 
     def fetch(self, path):
         try:
+            print(f'Opening data file <{path}>...')
             with open(path) as file:
                 chunk = []
                 data = csv.DictReader(file, self._header)
@@ -30,6 +31,7 @@ class SyncDataFromFile(object):
         if path:
             for batch in self.fetch(path):
                 self.process_save({item['sku']: item for item in batch})
+        print('Sync done.')
 
     def process_save(self, _data):
         schema = self._schema_class()
