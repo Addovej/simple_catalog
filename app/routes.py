@@ -80,12 +80,17 @@ class ProductView(SwaggerView):
         pagination = products.paginate(
             page, per_page
         )
+
+        links_args = dict(request.args)
+        links_args.update({'_external': True})
         _prev = None
         if pagination.has_prev:
-            _prev = url_for('api.products', page=page-1, _external=True)
+            links_args.update({'page': page - 1})
+            _prev = url_for('api.products', **links_args)
         _next = None
         if pagination.has_next:
-            _next = url_for('api.products', page=page+1, _external=True)
+            links_args.update({'page': page + 1})
+            _next = url_for('api.products', **links_args)
 
         products_schema = ProductSchema(many=True)
         resp = {
